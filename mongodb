@@ -1,0 +1,638 @@
+PS C:\Users\okona\myseconds3demo> mongosh $Env:MDB_CONNECTION_STRING;
+Current Mongosh Log ID: 69677fd851acf03165628c9f
+Connecting to:          mongodb://localhost:27017/?appName=mongodb-vscode+1.14.2&directConnection=true&serverSelectionTimeoutMS=2000
+Using MongoDB:          8.2.3
+Using Mongosh:          2.6.0
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2026-01-14T02:55:01.200-07:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> db
+test
+test> show dbs
+admin   40.00 KiB
+config  96.00 KiB
+local   40.00 KiB
+okona   16.00 KiB
+test> db.user.insertOne({ name: "Arrey" })
+{
+  acknowledged: true,
+  insertedId: ObjectId('6967829551acf03165628ca0')
+}
+test> db.user.find()
+test> db.user.find()
+[ { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' } ]
+test> db.user.insertOne({ name: "Emily", age: 19, address: { street: "10020 103av"}, hobbies: ["handball"] })
+{
+  acknowledged: true,
+  insertedId: ObjectId('696784eb51acf03165628ca1')
+}
+test> db.user.find()
+[
+  { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' },
+  {
+    _id: ObjectId('696784eb51acf03165628ca1'),
+    name: 'Emily',
+    age: 19,
+    address: { street: '10020 103av' },
+    hobbies: [ 'handball' ]
+  }
+]
+test> db.users.insertMany([{ name: "Frank" }, { name: "Lovett"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6967869451acf03165628ca2'),
+    '1': ObjectId('6967869451acf03165628ca3')
+  }
+}
+test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+Uncaught:
+SyntaxError: Unexpected token (1:104)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+    |                                                                                                         ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+Uncaught:
+SyntaxError: Unexpected token (1:106)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+    |                                                                                                           ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+Uncaught:
+SyntaxError: Unexpected token (1:102)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+    |                                                                                                       ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+Uncaught:
+SyntaxError: Unexpected token (1:102)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+    |                                                                                                       ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+Uncaught:
+SyntaxError: Unexpected token (1:100)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+    |                                                                                                     ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+Uncaught:
+SyntaxError: Unexpected token (1:101)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+    |                                                                                                      ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+Uncaught:
+SyntaxError: Unexpected token (1:92)
+
+> 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+    |                                                                                             ^
+  2 |
+
+test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], }, { name: "emily", age: 45, hobbies: ["handball","swimming"] }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6967908f51acf03165628ca4'),
+    '1': ObjectId('6967908f51acf03165628ca5')
+  }
+}
+test> db.users.find()
+[
+  { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+  { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+  {
+    _id: ObjectId('6967908f51acf03165628ca4'),
+    name: 'Eric',
+    age: 40,
+    hobbies: [ 'soccer', 'swimming' ]
+  },
+  {
+    _id: ObjectId('6967908f51acf03165628ca5'),
+    name: 'emily',
+    age: 45,
+    hobbies: [ 'handball', 'swimming' ]
+  }
+]
+test> db.users.find().limit(2)
+[
+  { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+  { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+]
+test> db.users.find().sort({ name: 2}).limit(3)
+MongoInvalidArgumentError: Invalid sort direction: 2
+test> db.users.find().sort({ name: 1}).limit(3)
+[
+  {
+    _id: ObjectId('6967908f51acf03165628ca4'),
+    name: 'Eric',
+    age: 40,
+    hobbies: [ 'soccer', 'swimming' ]
+  },
+  { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+  { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+]
+test> db.users.find({ age: {$gte: 20}})
+[
+  {
+    _id: ObjectId('6967908f51acf03165628ca4'),
+    name: 'Eric',
+    age: 40,
+    hobbies: [ 'soccer', 'swimming' ]
+  },
+  {
+    _id: ObjectId('6967908f51acf03165628ca5'),
+    name: 'emily',
+    age: 45,
+    hobbies: [ 'handball', 'swimming' ]
+  }
+]
+test> db.users.find({ age: {$lte: 20}})
+
+test> db.users.find({ name: { $in: ["emily" ," eric"]}})
+[
+  {
+    _id: ObjectId('6967908f51acf03165628ca5'),
+    name: 'emily',
+    age: 45,
+    hobbies: [ 'handball', 'swimming' ]
+  }
+]
+test> db.users.find({ name: { $nin: ["emily" ," eric"]}})
+[
+  { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+  { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+  {
+    _id: ObjectId('6967908f51acf03165628ca4'),
+    name: 'Eric',
+    age: 40,
+    hobbies: [ 'soccer', 'swimming' ]
+  }
+]
+test> db.users.find({ age: {$exist: true }})
+MongoServerError[BadValue]: unknown operator: $exist
+test> db.users.find({ age: { $exists: true }})
+[
+  {
+    _id: ObjectId('6967908f51acf03165628ca4'),
+    name: 'Eric',
+    age: 40,
+    hobbies: [ 'soccer', 'swimming' ]
+  },
+  {
+    _id: ObjectId('6967908f51acf03165628ca5'),
+    name: 'emily',
+    age: 45,
+    hobbies: [ 'handball', 'swimming' ]
+  }
+]
+test> db.users.find({ age: { $exists:  false }})
+[
+  { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+  { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+]
+test> PS C:\Users\okona\myseconds3demo> mongosh $Env:MDB_CONNECTION_STRING;
+... Current Mongosh Log ID: 69677fd851acf03165628c9f
+... Connecting to:          mongodb://localhost:27017/?appName=mongodb-vscode+1.14.2&directConnection=true&serverSelectionTimeoutMS=2000
+... Using MongoDB:          8.2.3
+... Using Mongosh:          2.6.0
+...
+... For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+...
+... ------
+...    The server generated these startup warnings when booting
+...    2026-01-14T02:55:01.200-07:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+... ------
+...
+... test> db
+... test
+... test> show dbs
+... admin   40.00 KiB
+... config  96.00 KiB
+... local   40.00 KiB
+... okona   16.00 KiB
+... test> db.user.insertOne({ name: "Arrey" })
+... {
+...   acknowledged: true,
+...   insertedId: ObjectId('6967829551acf03165628ca0')
+... }
+... test> db.user.find()
+... test> db.user.find()
+... [ { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' } ]
+... test> db.user.insertOne({ name: "Emily", age: 19, address: { street: "10020 103av"}, hobbies: ["handball"] })
+... {
+...   acknowledged: true,
+...   insertedId: ObjectId('696784eb51acf03165628ca1')
+... }
+... test> db.user.find()
+... [
+...   { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' },
+...   {
+...     _id: ObjectId('696784eb51acf03165628ca1'),
+...     name: 'Emily',
+...     age: 19,
+...     address: { street: '10020 103av' },
+...     hobbies: [ 'handball' ]
+...   }
+... ]
+... test> db.users.insertMany([{ name: "Frank" }, { name: "Lovett"}])
+... {
+...   acknowledged: true,
+...   insertedIds: {
+...     '0': ObjectId('6967869451acf03165628ca2'),
+...     '1': ObjectId('6967869451acf03165628ca3')
+...   }
+... }
+... test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:104)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+...     |                                                                                                         ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:106)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+...     |                                                                                                           ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:102)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                       ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45,
+ hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:102)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45,
+ hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                       ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hhobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:100)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hhobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                     ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:101)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                      ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:92)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                             ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], }, { name: "emily", age: 45, hobbies: ["handball","swimming"] }])
+... {
+...   acknowledged: true,
+...   insertedIds: {
+...     '0': ObjectId('6967908f51acf03165628ca4'),
+...     '1': ObjectId('6967908f51acf03165628ca5')
+...   }
+... }
+... test> db.users.find()
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find().limit(2)
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test> db.users.find().sort({ name: 2}).limit(3)
+... MongoInvalidArgumentError: Invalid sort direction: 2
+... test> db.users.find().sort({ name: 1}).limit(3)
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test> db.users.find({ age: {$gte: 20}})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: {$lte: 20}})
+...
+... test> db.users.find({ name: { $in: ["emily" ," eric"]}})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ name: { $nin: ["emily" ," eric"]}})
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: {$exist: true }})
+... MongoServerError[BadValue]: unknown operator: $exist
+... test> db.users.find({ age: { $exists: true }})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: { $exists:  false }})
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test>PS C:\Users\okona\myseconds3demo> mongosh $Env:MDB_CONNECTION_STRING;
+... Current Mongosh Log ID: 69677fd851acf03165628c9f
+... Connecting to:          mongodb://localhost:27017/?appName=mongodb-vscode+1.14.2&directConnection=true&serverSelectionTimeoutMS=2000
+... Using MongoDB:          8.2.3
+... Using Mongosh:          2.6.0
+...
+... For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+...
+... ------
+...    The server generated these startup warnings when booting
+...    2026-01-14T02:55:01.200-07:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+... ------
+...
+... test> db
+... test
+... test> show dbs
+... admin   40.00 KiB
+... config  96.00 KiB
+... local   40.00 KiB
+... okona   16.00 KiB
+... test> db.user.insertOne({ name: "Arrey" })
+... {
+...   acknowledged: true,
+...   insertedId: ObjectId('6967829551acf03165628ca0')
+... }
+... test> db.user.find()
+... test> db.user.find()
+... [ { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' } ]
+... test> db.user.insertOne({ name: "Emily", age: 19, address: { street: "10020 103av"}, hobbies: ["handball"] })
+... {
+...   acknowledged: true,
+...   insertedId: ObjectId('696784eb51acf03165628ca1')
+... }
+... test> db.user.find()
+... [
+...   { _id: ObjectId('6967829551acf03165628ca0'), name: 'Arrey' },
+...   {
+...     _id: ObjectId('696784eb51acf03165628ca1'),
+...     name: 'Emily',
+...     age: 19,
+...     address: { street: '10020 103av' },
+...     hobbies: [ 'handball' ]
+...   }
+... ]
+... test> db.users.insertMany([{ name: "Frank" }, { name: "Lovett"}])
+... {
+...   acknowledged: true,
+...   insertedIds: {
+...     '0': ObjectId('6967869451acf03165628ca2'),
+...     '1': ObjectId('6967869451acf03165628ca3')
+...   }
+... }
+... test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:104)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178", city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+...     |                                                                                                         ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:106)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 30, hobbies:["swimming", "Table tennis"], address: {"7314 178 " , city: "Edmonton" }}, { name: "Phil", age: 34, hobbies:["Football","Handball"], address: {"10021 103av", city: "Edmonton"} }])
+...     |                                                                                                           ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:102)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45,
+ hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                       ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:102)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104av", city: "edmonton"} }, { name: "emily", age: 45,
+ hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                       ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hhobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:100)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"10023 104", city: "edmonton"} }, { name: "emily", age: 45, hhobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                     ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:101)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"silverroad", city: "edmonton"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                                      ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+... Uncaught:
+... SyntaxError: Unexpected token (1:92)
+...
+... > 1 | db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], address: {"n"} }, { name: "emily", age: 45, hobbies: ["handball","swimming"], address: {"7315 178st", city: "edmonton" } }])
+...     |                                                                                             ^
+...   2 |
+...
+... test> db.users.insertMany([{ name: "Eric", age: 40, hobbies: ["soccer", "swimming"], }, { name: "emily", age: 45, hobbies: ["handball","swimming"] }])
+... {
+...   acknowledged: true,
+...   insertedIds: {
+...     '0': ObjectId('6967908f51acf03165628ca4'),
+...     '1': ObjectId('6967908f51acf03165628ca5')
+...   }
+... }
+... test> db.users.find()
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find().limit(2)
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test> db.users.find().sort({ name: 2}).limit(3)
+... MongoInvalidArgumentError: Invalid sort direction: 2
+... test> db.users.find().sort({ name: 1}).limit(3)
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test> db.users.find({ age: {$gte: 20}})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: {$lte: 20}})
+...
+... test> db.users.find({ name: { $in: ["emily" ," eric"]}})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ name: { $nin: ["emily" ," eric"]}})
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: {$exist: true }})
+... MongoServerError[BadValue]: unknown operator: $exist
+... test> db.users.find({ age: { $exists: true }})
+... [
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca4'),
+...     name: 'Eric',
+...     age: 40,
+...     hobbies: [ 'soccer', 'swimming' ]
+...   },
+...   {
+...     _id: ObjectId('6967908f51acf03165628ca5'),
+...     name: 'emily',
+...     age: 45,
+...     hobbies: [ 'handball', 'swimming' ]
+...   }
+... ]
+... test> db.users.find({ age: { $exists:  false }})
+... [
+...   { _id: ObjectId('6967869451acf03165628ca2'), name: 'Frank' },
+...   { _id: ObjectId('6967869451acf03165628ca3'), name: 'Lovett' }
+... ]
+... test>
+test>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+test>
